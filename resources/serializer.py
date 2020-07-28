@@ -20,7 +20,7 @@ class Serializer:
         self.mid_price_ago = int(mid_price_ago * 3600)
         self.columns[-1] += "({}hr ago)".format(mid_price_ago)
         self.output = PrettyTable(self.columns, border=False)
-        self.out_index = 0
+
         # for debug purposes Serializer can print raw data passed into it in console
         self.raw_data = raw_data
 
@@ -33,9 +33,10 @@ class Serializer:
             if isinstance(data, dict):
                 line = self._get_line(exchange, data)
                 if line:
+                    # no need to keep table in memory - clear it each time before printing
+                    self.output.clear_rows()
                     self.output.add_row(line)
-                    print(self.output.__getitem__(self.out_index))
-                    self.out_index += 1
+                    print(self.output)
 
                     # print header only once
                     if self.output.header:
