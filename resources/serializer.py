@@ -9,6 +9,7 @@ class Serializer:
     # pretty print for output data
     # columns and example for the lines
     # timestamp,    exchange,   market,     bid_price,  bid_size,   ask_price,  ask_size
+    # (seconds since Epoch)
     # 1589301725,   Binance,    btcusdt,    8903.64,    0.999,      8904.27,    0.18
     # 1589301725,   FTX,        BTC - PERP, 8912.0,     1.7676,     8913.0,     4.1907
 
