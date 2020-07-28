@@ -1,7 +1,7 @@
-import exchanges
-from parameters import parser
-from serializer import Serializer
-from subscribe import Subscribe
+from resources import exchanges
+from resources.parameters import parser
+from resources.serializer import Serializer
+from resources.subscribe import Subscribe
 
 args = parser.parse_args()
 # Subscribe to exchanges in threads

@@ -1,8 +1,8 @@
 import json
 import threading
 
-from connector import ConnectToWS
-from exchanges import Exchange
+from resources.connector import ConnectToWS
+from resources.exchanges import Exchange
 
 
 class Subscribe(threading.Thread):
