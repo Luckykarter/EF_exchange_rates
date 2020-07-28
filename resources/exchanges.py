@@ -16,7 +16,7 @@ class Exchange:
     def validate_response(self, response):
         pass
 
-    def get_timestamp(self, data):
+    def get_timestamp(self, data) -> int:
         pass
 
     def get_bids(self, data):
@@ -57,9 +57,9 @@ class Binance(Exchange):
         if response.get("id") != self.id:
             raise AssertionError("Bad Response.\nExpected id: {}, Received: {}".format(self.id, response.get("id")))
 
-    def get_timestamp(self, data):
+    def get_timestamp(self, data) -> int:
         val = int(data.get("E"))
-        return str(val // 1000)
+        return val // 1000
 
     def get_bids(self, data):
         return data.get("b")
@@ -85,8 +85,8 @@ class FTX(Exchange):
 
         Exchange.__init__(self, id, name, url, subscribe, unsubscribe)
 
-    def get_timestamp(self, data):
-        return str(int(data.get("data").get("time")))
+    def get_timestamp(self, data) -> int:
+        return int(data.get("data").get("time", 0))
 
     def _get_from_deal_data(self, data, type):
         deal_data = data.get("data")
@@ -122,11 +122,11 @@ class FTX_trades(FTX):
             return None
         return [(deal["price"], deal["size"]) for deal in deal_data if deal["side"] == type]
 
-    def get_timestamp(self, data):
+    def get_timestamp(self, data) -> int:
         deal_data = data.get("data")
-        if not deal_data:
-            return None
-        return maya.parse(deal_data[0].get("time")).epoch
+        if isinstance(deal_data[0], dict):
+            return maya.parse(deal_data[0].get("time")).epoch
+        return 0
 
     def get_bids(self, data):
         return self._get_from_deal_data(data, "sell")

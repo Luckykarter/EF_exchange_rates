@@ -66,7 +66,7 @@ class Serializer:
 
         for column in self.columns:
             if column == "timestamp":
-                value = timestamp
+                value = str(timestamp)
             elif column == "exchange":
                 value = exchange.name
             elif column == "market":
@@ -80,7 +80,7 @@ class Serializer:
             elif column == "ask_size":
                 value = asks[1]
             elif column == self.columns[-1]:
-                hour_ago = int(timestamp) - self.mid_price_ago
+                hour_ago = timestamp - self.mid_price_ago
                 if hour_ago in exchange.mid_price:
                     value = exchange.mid_price.get(hour_ago)
                 else:
