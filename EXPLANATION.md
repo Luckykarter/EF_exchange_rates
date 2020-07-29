@@ -43,8 +43,10 @@ ask_size
 
 
 2. add a new column, "mid price 1 hour ago" which writes the mid price (`(ask+bid)/2`) of each market, exactly 1 hour ago.
-> EW: Reach the API to get historical data for the period from program start + 1 hour and store it in-memory
-> During printing lines - calculate and store mid-price - after 1 hour - use data calculated by the app
+> EW: Reach the API to get historical data for the period from program start minus 1 hour and store it in-memory
+> During printing lines - calculate and store mid-price - when API-based data exhausted - use data calculated by the app to avoid 
+> additional API calls.
+> Since there is API minimum resolution (e.g. Binance 1 min, FTX 15 seconds) - to get data - search for 1 hour ago +- API resolution
 
 3. choose 1 exchange and subscribe to `trades` from the chosen exchange. print them as well alongside the orderbook data. 
 > EW: Match sell -> bid column, buy -> ask column
