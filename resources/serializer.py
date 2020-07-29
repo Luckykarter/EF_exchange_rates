@@ -13,12 +13,10 @@ class Serializer:
     # 1589301725,   Binance,    btcusdt,    8903.64,    0.999,      8904.27,    0.18
     # 1589301725,   FTX,        BTC - PERP, 8912.0,     1.7676,     8913.0,     4.1907
 
-    def __init__(self, delay=1, raw_data=False, mid_price_ago=1):
+    def __init__(self, delay=1, raw_data=False):
         self.columns = ["timestamp", "exchange", "market", "bid_price", "bid_size", "ask_price", "ask_size",
-                        "mid_price"]
+                        "mid_price(1hr ago)"]
         self.delay = delay
-        self.mid_price_ago = int(mid_price_ago * 3600)
-        self.columns[-1] += "({}hr ago)".format(mid_price_ago)
         self.output = PrettyTable(self.columns, border=False)
 
         # for debug purposes Serializer can print raw data passed into it in console
@@ -51,13 +49,13 @@ class Serializer:
         bids = exchange.get_bids(data)
         asks = exchange.get_asks(data)
 
-        # TODO: in one line there is a number of bids/asks. Clarify how to handle them (meanwhile - take the first)
-        # TODO: also in the line might be no asks or no bids. How to handle it? (meanwhile - skip if both empty)
+        # take top bid/ask - i.e. Highest Bid and Lowest Ask
+        # skip printing if both empty
         if not bids and not asks:
             return None
 
-        bids = [0.0, 0.0] if not bids else bids[0]
-        asks = [0.0, 0.0] if not asks else asks[0]
+        bids = [0.0, 0.0] if not bids else sorted(bids, key=lambda x: float(x[0]))[0]
+        asks = [0.0, 0.0] if not asks else sorted(asks, key=lambda x: -float(x[0]))[0]
 
         # update mid price one hour ago
         timestamp = exchange.get_timestamp(data)
@@ -80,20 +78,20 @@ class Serializer:
             elif column == "ask_size":
                 value = asks[1]
             elif column == self.columns[-1]:
-                hour_ago = timestamp - self.mid_price_ago
-                if hour_ago in exchange.mid_price:
-                    value = exchange.mid_price.get(hour_ago)
-                else:
+                hour_ago = timestamp - 3600
+                value = exchange.get_mid_price(hour_ago)
+                if not value:
                     value = "N/A"
+
                 # remove older data
-                exchange._free_mid_price(hour_ago)
+                exchange.free_mid_price(hour_ago)
             else:
                 value = ""
 
-            # to make table looks pretty
+            # to make table look prettier - set fixed width
             if not isinstance(value, str):
                 value = str(value)
-            while len(value) <= len(column):
+            while len(value) <= max(len(column), 9):
                 value += " "
             values.append(value)
         return values

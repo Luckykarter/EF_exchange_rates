@@ -15,7 +15,6 @@ Command line possible arguments:
 | -h --help | Display arguments description |
 | --raw     | Print raw data received from exchanges | 
 | --delay DELAY | Specify custom delay for output in seconds (default: 1.0 second) |
-| --mid-price-ago MID_PRICE_AGO | Specify time for mid-price historical data in hours (default: 1.0 hour) |
 | EXCHANGE | Positional argument (can be multiple) - specify data sources. If not provided - all are used |
                         
 ### Used libraries:
@@ -27,6 +26,9 @@ Single purpose - parse datetime timestamp from trades channel to print it in req
 
 #### PrettyTable
 Used for formatting output as a table
+
+#### requests
+For getting historical data for mid_price from REST API of exchanges
 
 ### Solution concept:
 
