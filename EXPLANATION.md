@@ -43,8 +43,8 @@ ask_size
 
 
 2. add a new column, "mid price 1 hour ago" which writes the mid price (`(ask+bid)/2`) of each market, exactly 1 hour ago.
-> EW: Current solution is to keep mid_price in memory for the past 3601 seconds and print N/A when there is no available amount
-> 
+> EW: Reach the API to get historical data for the period from program start + 1 hour and store it in-memory
+> During printing lines - calculate and store mid-price - after 1 hour - use data calculated by the app
 
 3. choose 1 exchange and subscribe to `trades` from the chosen exchange. print them as well alongside the orderbook data. 
 > EW: Match sell -> bid column, buy -> ask column
