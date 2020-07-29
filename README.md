@@ -1,7 +1,7 @@
 # EF_exchange_rates
 Home coding task for Efficient Frontier
 
-Task description can be found in [TASK_DESCRIPTION.md](https://github.com/Luckykarter/EF_exchange_rates/blob/master/TASK_DESCRIPTION.md)
+Explanation of the solution and task description can be found in [EXPLANATION.md](https://github.com/Luckykarter/EF_exchange_rates/blob/master/EXPLANATION.md)
 
 This app subscribes to public WebSockets of exchanges Binance and FTX in order to print orders bids and asks price/size every second.
 The sources of data and update interval can be configured using the command line parameters.
