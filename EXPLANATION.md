@@ -52,9 +52,12 @@ ask_size
 > EW: Match sell -> bid column, buy -> ask column
 
 4. _question: what new information can you learn about the orderbook updates, based on the data in these trades. how could you improve the accuracy of the orderbook updates based on this new information?_
+> EW: it is not quite clear what exactly *accuracy of the orderbook* means in this case. 
+> Therefore it is difficult to say which new information in trades I should look for.
 
 5. implement an improved "orderbook" feed based on this data (you can print in high time resolution to show the effect).
 6. _question: what can be the problems when using this additional data? how would you overcome these problems?_
+>EW: 5, 6 depend on 4th point - not clear what "additional data" means in this case
 
 ## Exchanges and Markets:
 choose 2 of the following exchanges and connect to their public Websocket.
